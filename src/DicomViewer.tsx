@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from "react";
 import { RenderingEngine, Enums, StackViewport } from "@cornerstonejs/core";
 import * as cornerstoneTools from "@cornerstonejs/tools";
@@ -156,7 +157,7 @@ const DicomViewer = () => {
     selectedToolName = toolName;
   };
 
-  const cancelToolDrawing = (evt: CustomEvent) => {
+  const cancelToolDrawing = (evt: any) => {
     const { element, key } = evt.detail;
     if (key === "Escape") {
       cornerstoneTools.cancelActiveManipulations(element);

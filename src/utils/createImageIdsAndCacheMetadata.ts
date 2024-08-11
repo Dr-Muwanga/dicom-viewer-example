@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { api } from "dicomweb-client";
 import dcmjs from "dcmjs";
 import { Types, utilities } from "@cornerstonejs/core";
@@ -43,7 +44,7 @@ export const createImageIdsAndCacheMetadata = async ({
   const modality = instances[0][MODALITY].Value[0];
 
   let imageIds = instances.map((instanceMetaData) => {
-    const SeriesInstanceUID = instanceMetaData?.[SERIES_INSTANCE_UID].Value[0];
+    const SeriesInstanceUID = instanceMetaData[SERIES_INSTANCE_UID].Value[0];
     const SOPInstanceUIDToUse =
       SOPInstanceUID || instanceMetaData[SOP_INSTANCE_UID].Value[0];
 

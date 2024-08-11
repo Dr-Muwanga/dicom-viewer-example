@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Remove invalid tags from a metadata and return a new object.
  *
@@ -13,13 +14,13 @@
  * @param srcMetadata - source metadata
  * @returns new metadata object without invalid tags
  */
-function removeInvalidTags(srcMetadata) {
+function removeInvalidTags(srcMetadata:  Record<string, any>): Record<string, any> {
     // Object.create(null) make it ~9% faster
-    const dstMetadata = Object.create(null);
-    const tagIds = Object.keys(srcMetadata);
+    const dstMetadata:Record<string, any> = Object.create(null);
+    const tagIds: string[] = Object.keys(srcMetadata);
     let tagValue;
   
-    tagIds.forEach((tagId) => {
+    tagIds.forEach((tagId: string) => {
       tagValue = srcMetadata[tagId];
   
       if (tagValue !== undefined && tagValue !== null) {

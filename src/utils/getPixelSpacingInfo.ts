@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // See https://github.com/OHIF/Viewers/blob/94a9067fe3d291d30e25a1bda5913511388edea2/platform/core/src/utils/metadataProvider/getPixelSpacingInformation.js
 
-export default function getPixelSpacingInformation(instance) {
+export default function getPixelSpacingInformation(instance: any) {
     // See http://gdcm.sourceforge.net/wiki/index.php/Imager_Pixel_Spacing
   
     // TODO: Add Ultrasound region spacing
@@ -89,7 +90,7 @@ export default function getPixelSpacingInformation(instance) {
         // Estimated Radiographic Magnification Factor and the user informed of that.
         // TODO: should this correction be done before all of this logic?
         CorrectedImagerPixelSpacing = ImagerPixelSpacing.map(
-          (pixelSpacing) =>
+          (pixelSpacing: any) =>
             pixelSpacing / EstimatedRadiographicMagnificationFactor
         )
       } else {

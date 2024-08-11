@@ -9,6 +9,7 @@ import ptScalingMetaDataProvider from './ptScalingMetadatProvider';
 import dicomParser from "dicom-parser"
 import * as cornerstone from "@cornerstonejs/core";
 import cornerstoneDICOMImageLoader from "@cornerstonejs/dicom-image-loader";
+import { VolumeLoaderFn } from "@cornerstonejs/core/dist/types/types";
 
 
 const { preferSizeOverAccuracy, useNorm16Texture } =
@@ -59,17 +60,17 @@ const initProviders =()=> {
   );
 };
 
-const initVolumeLoader =() =>{
+const initVolumeLoader =():void =>{
   volumeLoader.registerUnknownVolumeLoader(
-    cornerstoneStreamingImageVolumeLoader
+    cornerstoneStreamingImageVolumeLoader as unknown as VolumeLoaderFn
   )
   volumeLoader.registerVolumeLoader(
     "cornerstoneStreamingImageVolume",
-    cornerstoneStreamingImageVolumeLoader
+    cornerstoneStreamingImageVolumeLoader  as unknown as VolumeLoaderFn
   )
   volumeLoader.registerVolumeLoader(
     "cornerstoneStreamingDynamicImageVolume",
-    cornerstoneStreamingDynamicImageVolumeLoader
+    cornerstoneStreamingDynamicImageVolumeLoader  as unknown as VolumeLoaderFn
   )
   }
 

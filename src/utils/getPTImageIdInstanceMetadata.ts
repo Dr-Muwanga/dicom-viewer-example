@@ -187,7 +187,14 @@ export default function getPTImageIdInstanceMetadata(
   return instanceMetadata;
 }
 
-function convertInterfaceTimeToString(time): string {
+interface Time {
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+  fractionalSeconds?: number;
+}
+
+function convertInterfaceTimeToString(time: Time): string {
   const hours = `${time.hours || '00'}`.padStart(2, '0');
   const minutes = `${time.minutes || '00'}`.padStart(2, '0');
   const seconds = `${time.seconds || '00'}`.padStart(2, '0');
@@ -201,7 +208,13 @@ function convertInterfaceTimeToString(time): string {
   return timeString;
 }
 
-function convertInterfaceDateToString(date): string {
+interface DateType {
+  year: number;
+  month: number;
+  day: number;
+}
+
+function convertInterfaceDateToString(date: DateType): string {
   const month = `${date.month}`.padStart(2, '0');
   const day = `${date.day}`.padStart(2, '0');
   const dateString = `${date.year}${month}${day}`;
