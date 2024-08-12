@@ -1,15 +1,13 @@
-// @ts-nocheck
 import { api } from "dicomweb-client";
 import dcmjs from "dcmjs";
 import { Types, utilities } from "@cornerstonejs/core";
 import cornerstoneDICOMImageLoader from "@cornerstonejs/dicom-image-loader";
 import getPTImageIdInstanceMetadata from "./getPTImageIdInstanceMetadata";
-import { calculateSUVScalingFactors } from "@cornerstonejs/calculate-suv";
+import { calculateSUVScalingFactors, InstanceMetadata } from "@cornerstonejs/calculate-suv";
 import ptScalingMetaDataProvider from './ptScalingMetadatProvider';
 import { convertMultiframeImageIds, prefetchMetadataInformation } from "./convertMultiframeImageIds";
 import removeInvalidTags from "./removeInvalidTags";
 import getPixelSpacingInformation from "./getPixelSpacingInfo";
-import { InstanceMetadata } from "dicomweb-client/types/api";
 
 const { DicomMetaDictionary } = dcmjs.data
 const { calibratedPixelSpacingMetadataProvider } = utilities
@@ -41,12 +39,13 @@ export const createImageIdsAndCacheMetadata = async ({
   }});
 
   const instances = await client.retrieveSeriesMetadata(studySearchOptions);
-  const modality = instances[0][MODALITY].Value[0];
+  const modality = instances[0][MODALITY] && Array.isArray(instances[0][MODALITY].Value) ? instances[0][MODALITY].Value[0] : undefined;
 
   let imageIds = instances.map((instanceMetaData) => {
-    const SeriesInstanceUID = instanceMetaData[SERIES_INSTANCE_UID].Value[0];
+    const SeriesInstanceUID = 
+      instanceMetaData[SERIES_INSTANCE_UID]?.Value && instanceMetaData[SERIES_INSTANCE_UID].Value[0];
     const SOPInstanceUIDToUse =
-      SOPInstanceUID || instanceMetaData[SOP_INSTANCE_UID].Value[0];
+      SOPInstanceUID || instanceMetaData[SOP_INSTANCE_UID]?.Value && instanceMetaData[SOP_INSTANCE_UID].Value[0];
 
     const prefix = "wadors:";
 
@@ -72,7 +71,7 @@ export const createImageIdsAndCacheMetadata = async ({
   imageIds = convertMultiframeImageIds(imageIds);
   
   imageIds.forEach((imageId) => {
-    let instanceMetaData:InstanceMetadata =
+    let instanceMetaData =
       cornerstoneDICOMImageLoader.wadors.metaDataManager.get(imageId)
 
       // It was using JSON.parse(JSON.stringify(...)) before but it is 8x slower
@@ -93,7 +92,7 @@ export const createImageIdsAndCacheMetadata = async ({
   })
 
   if(modality === 'PT') {
-    const InstanceMetadataArray = []
+    const InstanceMetadataArray:InstanceMetadata[] = []
 
     imageIds.forEach((imageId)=>{
       const instanceMetadata = getPTImageIdInstanceMetadata(imageId);

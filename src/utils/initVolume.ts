@@ -66,11 +66,11 @@ const initVolumeLoader =():void =>{
   )
   volumeLoader.registerVolumeLoader(
     "cornerstoneStreamingImageVolume",
-    cornerstoneStreamingImageVolumeLoader  as unknown as VolumeLoaderFn
+    cornerstoneStreamingImageVolumeLoader as unknown as VolumeLoaderFn
   )
   volumeLoader.registerVolumeLoader(
     "cornerstoneStreamingDynamicImageVolume",
-    cornerstoneStreamingDynamicImageVolumeLoader  as unknown as VolumeLoaderFn
+    cornerstoneStreamingDynamicImageVolumeLoader as unknown as VolumeLoaderFn
   )
   }
 
